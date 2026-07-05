@@ -1,6 +1,6 @@
 <script setup>
 import { computed, reactive, ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { Lock, OfficeBuilding, Phone, User, UserFilled } from '@element-plus/icons-vue'
 import { loginUser, registerUser } from '@/api/user'
@@ -12,6 +12,7 @@ const route = useRoute()
 const userStore = useUserStore()
 
 const activeMode = ref('login')
+const loading = ref(false)
 const loginForm = reactive({
   username: 'admin',
   password: '123456',
@@ -24,13 +25,12 @@ const registerForm = reactive({
   position: '操作工',
   contact: '',
 })
-const loading = ref(false)
 
 const positionOptions = computed(() => ROLES.map((item) => item.label))
 const panelTitle = computed(() => activeMode.value === 'login' ? '系统登录' : '用户注册')
 const panelDesc = computed(() => activeMode.value === 'login'
-  ? '使用系统账号与密码进入生产执行工作台。'
-  : '创建新的 MES-RTM 系统用户账号。')
+  ? '使用您的MES-RTM账户登录。'
+  : '创建一个新的MES-RTM用户账户。')
 
 function switchMode(mode) {
   activeMode.value = mode
@@ -54,7 +54,7 @@ async function handleLogin() {
       password: loginForm.password,
     })
     if (!result?.token) {
-      ElMessage.error('登录响应缺少 token，请检查后端接口返回')
+      ElMessage.error('登录响应缺少token')
       return
     }
     userStore.setToken(result.token)
@@ -69,7 +69,7 @@ async function handleLogin() {
 
 async function handleRegister() {
   if (!registerForm.username.trim() || !registerForm.password) {
-    ElMessage.warning('注册账号和密码为必填项')
+    ElMessage.warning('用户名和密码为必填项')
     return
   }
   loading.value = true
@@ -94,14 +94,14 @@ async function handleRegister() {
           <div class="brand-mark">RT</div>
           <div>
             <h1>MES-RTM</h1>
-            <p>SMT 实时制造执行子系统</p>
+            <p>实时制造执行系统</p>
           </div>
         </div>
 
         <div class="factory-grid">
           <div>
             <strong>4</strong>
-            <span>产线在线</span>
+            <span>在线产线</span>
           </div>
           <div>
             <strong>30s</strong>
@@ -109,13 +109,13 @@ async function handleRegister() {
           </div>
           <div>
             <strong>24h</strong>
-            <span>现场看板</span>
+            <span>车间看板</span>
           </div>
         </div>
 
         <div class="login-note">
           <span class="note-dot" />
-          <p>面向车间工位、生产调度、质量拦截与大屏看板的统一入口。</p>
+          <p>统一入口，涵盖车间操作、排产调度、质量管理和看板模块。</p>
         </div>
       </div>
 
@@ -125,7 +125,7 @@ async function handleRegister() {
           <p>{{ panelDesc }}</p>
         </div>
 
-        <div class="mode-switch" role="tablist" aria-label="登录注册切换">
+        <div class="mode-switch" role="tablist" aria-label="login register switch">
           <button type="button" :class="{ active: activeMode === 'login' }" @click="switchMode('login')">
             登录
           </button>
@@ -136,25 +136,39 @@ async function handleRegister() {
 
         <el-form v-if="activeMode === 'login'" :model="loginForm" class="login-form" @submit.prevent="handleLogin">
           <el-form-item>
-            <el-input v-model="loginForm.username" :prefix-icon="User" size="large" placeholder="请输入用户名" />
+            <el-input v-model="loginForm.username" :prefix-icon="User" size="large" placeholder="用户名" />
           </el-form-item>
           <el-form-item>
-            <el-input v-model="loginForm.password" :prefix-icon="Lock" type="password" size="large" show-password placeholder="请输入密码" />
+            <el-input
+              v-model="loginForm.password"
+              :prefix-icon="Lock"
+              type="password"
+              size="large"
+              show-password
+              placeholder="密码"
+            />
           </el-form-item>
           <el-button type="primary" size="large" :loading="loading" class="login-btn" native-type="submit">
-            登录系统
+            登录
           </el-button>
         </el-form>
 
         <el-form v-else :model="registerForm" class="login-form register-form" @submit.prevent="handleRegister">
           <el-form-item class="full">
-            <el-input v-model="registerForm.username" :prefix-icon="User" size="large" placeholder="用户账号（必填）" />
+            <el-input v-model="registerForm.username" :prefix-icon="User" size="large" placeholder="用户名" />
           </el-form-item>
           <el-form-item class="full">
-            <el-input v-model="registerForm.password" :prefix-icon="Lock" type="password" size="large" show-password placeholder="登录密码（必填）" />
+            <el-input
+              v-model="registerForm.password"
+              :prefix-icon="Lock"
+              type="password"
+              size="large"
+              show-password
+              placeholder="密码"
+            />
           </el-form-item>
           <el-form-item>
-            <el-input v-model="registerForm.fullName" :prefix-icon="UserFilled" size="large" placeholder="真实姓名" />
+            <el-input v-model="registerForm.fullName" :prefix-icon="UserFilled" size="large" placeholder="姓名" />
           </el-form-item>
           <el-form-item>
             <el-select v-model="registerForm.position" size="large" class="role-select" placeholder="岗位">
@@ -162,13 +176,18 @@ async function handleRegister() {
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-input v-model="registerForm.department" :prefix-icon="OfficeBuilding" size="large" placeholder="所属部门" />
+            <el-input
+              v-model="registerForm.department"
+              :prefix-icon="OfficeBuilding"
+              size="large"
+              placeholder="部门"
+            />
           </el-form-item>
           <el-form-item>
             <el-input v-model="registerForm.contact" :prefix-icon="Phone" size="large" placeholder="联系方式" />
           </el-form-item>
           <el-button type="primary" size="large" :loading="loading" class="login-btn" native-type="submit">
-            创建账号
+            注册账户
           </el-button>
         </el-form>
       </div>
