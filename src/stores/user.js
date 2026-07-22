@@ -19,8 +19,8 @@ const DEFAULT_USER = {
   department: '生产部',
   post: '管理层',
   position: '管理层',
-  role: 'rtm_admin',
-  roles: ['rtm_admin'],
+  role: 'RTM_ADMIN',
+  roles: ['RTM_ADMIN'],
   lines: DEFAULT_LINES,
 }
 
@@ -126,11 +126,15 @@ export const useUserStore = defineStore('user', () => {
   }
 
   function hasRole(role) {
-    return userInfo.value.role === 'rtm_admin' || userInfo.value.roles?.includes(role)
+    const upper = String(role).toUpperCase()
+    return userInfo.value.role?.toUpperCase() === 'RTM_ADMIN'
+      || (userInfo.value.roles || []).some((item) => String(item).toUpperCase() === upper)
   }
 
   function hasAnyRole(roles) {
-    return userInfo.value.role === 'rtm_admin' || roles.some((role) => userInfo.value.roles?.includes(role))
+    if (userInfo.value.role?.toUpperCase() === 'RTM_ADMIN') return true
+    const userRoles = (userInfo.value.roles || []).map((item) => String(item).toUpperCase())
+    return roles.some((role) => userRoles.includes(String(role).toUpperCase()))
   }
 
   function hasPermission(permission) {
