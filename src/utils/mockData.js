@@ -217,11 +217,11 @@ export const stations = reactive([
 ])
 
 export const routeSteps = reactive([
-  { Id: 101, RouteId: 1, OperationId: 1, StationId: 1, Sequence: 10, EquipmentTypeId: 1, ParameterTemplateId: null, StandardTime: 480, ...auditFields() },
-  { Id: 102, RouteId: 1, OperationId: 2, StationId: 2, Sequence: 20, EquipmentTypeId: 2, ParameterTemplateId: null, StandardTime: 300, ...auditFields() },
-  { Id: 103, RouteId: 1, OperationId: 3, StationId: 3, Sequence: 30, EquipmentTypeId: 3, ParameterTemplateId: null, StandardTime: 1440, ...auditFields() },
-  { Id: 104, RouteId: 1, OperationId: 4, StationId: 4, Sequence: 40, EquipmentTypeId: 4, ParameterTemplateId: null, StandardTime: 1080, ...auditFields() },
-  { Id: 105, RouteId: 1, OperationId: 5, StationId: 5, Sequence: 50, EquipmentTypeId: 5, ParameterTemplateId: null, StandardTime: 420, ...auditFields() },
+  { Id: 101, RouteId: 1, OperationId: 1, StationId: 1, Sequence: 1, EquipmentTypeId: 1, ParameterTemplateId: null, StandardTime: 480, ...auditFields() },
+  { Id: 102, RouteId: 1, OperationId: 2, StationId: 2, Sequence: 2, EquipmentTypeId: 2, ParameterTemplateId: null, StandardTime: 300, ...auditFields() },
+  { Id: 103, RouteId: 1, OperationId: 3, StationId: 3, Sequence: 3, EquipmentTypeId: 3, ParameterTemplateId: null, StandardTime: 1440, ...auditFields() },
+  { Id: 104, RouteId: 1, OperationId: 4, StationId: 4, Sequence: 4, EquipmentTypeId: 4, ParameterTemplateId: null, StandardTime: 1080, ...auditFields() },
+  { Id: 105, RouteId: 1, OperationId: 5, StationId: 5, Sequence: 5, EquipmentTypeId: 5, ParameterTemplateId: null, StandardTime: 420, ...auditFields() },
 ])
 
 export const boms = reactive([
