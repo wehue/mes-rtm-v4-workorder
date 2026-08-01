@@ -77,6 +77,12 @@ const routes = [
             meta: { title: '上料管理', module: '生产执行', permission: PERMISSION_CODES.LOADING },
           },
           {
+            path: 'unloading',
+            name: 'Unloading',
+            component: () => import('@/views/execution/UnloadingView.vue'),
+            meta: { title: '下料管理', module: '生产执行', permission: PERMISSION_CODES.UNLOADING },
+          },
+          {
             path: 'check-in',
             name: 'CheckIn',
             component: () => import('@/views/execution/CheckInView.vue'),

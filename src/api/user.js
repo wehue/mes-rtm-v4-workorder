@@ -11,14 +11,6 @@ export function loginUser(data) {
   })
 }
 
-// 用户注册
-// 接口：POST /api/user/register
-// 参数：{ username, password, fullName, department, position, contact }
-// 返回：{ userId, username, fullName, department, position }
-export function registerUser(data) {
-  return request.post('/user/register', data)
-}
-
 // 查询当前登录用户的功能权限
 // 接口：GET /api/user/current/functions
 // Header：token
