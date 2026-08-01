@@ -18,7 +18,6 @@ const traces = computed(() => getBatchTrace(batch.value.id))
     <div class="page-header">
       <div>
         <h1 class="page-title">{{ batch.id }} 批次详情</h1>
-        <p class="page-subtitle">查看批次基础信息、工序流转、上料记录和追溯结果。</p>
       </div>
       <div class="table-actions">
         <el-button type="primary" @click="router.push('/execution/check-in')">进站操作</el-button>
